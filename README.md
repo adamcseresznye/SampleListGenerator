@@ -1,5 +1,6 @@
 **Sample list generator**
 
+```
   A program that generates sample list with vial locations from given sample
   names.
 
@@ -16,6 +17,8 @@ Options:
   --export BOOLEAN     Whether to export the resulting sample list as csv.
                        Defaults to True.
   --help               Show this message and exit.
+
+```
 
 **Example usage as CLI**
 python sample_list_generator.py --location="example.txt" --target_dict="{'qc':5, 'blank': 3}" --start=10 --randomize=False --export=False
