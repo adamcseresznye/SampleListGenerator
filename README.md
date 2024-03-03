@@ -21,7 +21,10 @@ Options:
 ```
 
 **Example usage as CLI**
+
+```
 python sample_list_generator.py --location="example.txt" --target_dict="{'qc':5, 'blank': 3}" --start=10 --randomize=False --export=False
+```
 
 **Example usage as a Python module**
 
