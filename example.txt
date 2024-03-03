@@ -18,9 +18,6 @@ sample_17
 sample_18
 sample_19
 sample_20
-blank_1
-blank_2
-blank_3
-qc_1
-qc_2
-qc_3
+blank
+qc
+isrs
