@@ -55,8 +55,8 @@ def test_increment_duplicated_names(slg_fixture):
 
 # Test the return_sample_list method
 def test_return_sample_list(slg_fixture):
-    target_dict = {"sample1": 2, "sample2": 3}
-    df = slg_fixture.return_sample_list(target_dict, randomize=False)
+    replicate_samples = {"sample1": 2, "sample2": 3}
+    df = slg_fixture.return_sample_list(replicate_samples, randomize=False)
     assert isinstance(df, pd.DataFrame)
     assert df["sample"].tolist() == [
         "sample1",
@@ -74,15 +74,15 @@ def test_init_invalid_location():
         SampleListGenerator("invalid/location")
 
 
-# Test the return_sample_list method with None target_dict
-def test_return_sample_list_none_target_dict(slg_fixture):
+# Test the return_sample_list method with None replicate_samples
+def test_return_sample_list_none_replicate_samples(slg_fixture):
     df = slg_fixture.return_sample_list(None, randomize=False)
     assert isinstance(df, pd.DataFrame)
     assert df["sample"].tolist() == ["sample1", "sample2", "sample3"]
 
 
-# Test the return_sample_list method with empty target_dict
-def test_return_sample_list_empty_target_dict(slg_fixture):
+# Test the return_sample_list method with empty replicate_samples
+def test_return_sample_list_empty_replicate_samples(slg_fixture):
     df = slg_fixture.return_sample_list(None, randomize=False)
     assert isinstance(df, pd.DataFrame)
     assert df["sample"].tolist() == ["sample1", "sample2", "sample3"]
@@ -90,8 +90,8 @@ def test_return_sample_list_empty_target_dict(slg_fixture):
 
 # Test the return_sample_list method with randomize=True
 def test_return_sample_list_randomize_true(slg_fixture):
-    target_dict = {"sample1": 2, "sample2": 3}
-    df = slg_fixture.return_sample_list(target_dict, randomize=True)
+    replicate_samples = {"sample1": 2, "sample2": 3}
+    df = slg_fixture.return_sample_list(replicate_samples, randomize=True)
     assert isinstance(df, pd.DataFrame)
     assert sorted(df["sample"].tolist()) == sorted(
         ["sample1", "sample1_2", "sample2", "sample2_2", "sample2_3", "sample3"]

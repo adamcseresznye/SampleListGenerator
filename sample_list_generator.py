@@ -8,7 +8,7 @@ import pandas as pd
 
 class SampleListGenerator:
     """
-    A class used to create a list of samples from a given CSV file.
+    A class used to generate a list of samples from a given CSV file.
 
     Attributes
     ----------
@@ -29,7 +29,7 @@ class SampleListGenerator:
         Creates a dataframe from the sample names and their locations.
     increment_duplicated_names(sample: str) -> str:
         Increments the count of duplicated sample names in the count_dict.
-    return_sample_list(target_dict: dict, randomize: bool = True) -> pandas.DataFrame:
+    return_sample_list(replicate_samples: dict, randomize: bool = True) -> pandas.DataFrame:
         Returns a sample list with duplicated sample names incremented and optionally randomized.
     """
 
@@ -81,23 +81,23 @@ class SampleListGenerator:
         return sample
 
     def return_sample_list(
-        self, target_dict: dict, randomize: bool = True
+        self, replicate_samples: dict, randomize: bool = True
     ) -> pd.DataFrame:
         """
         Returns a sample list with duplicated sample names incremented and optionally randomized.
 
         Parameters:
-            target_dict (dict): A dictionary with target sample names and their repeat counts.
+            replicate_samples (dict): A dictionary containing sample names to be injected multiple times, along with their corresponding repeat counts.
             randomize (bool): Whether to randomize the sample list. Defaults to True.
 
         Returns:
             pandas.DataFrame: The sample list as a dataframe.
         """
-        if target_dict is None:
+        if replicate_samples is None:
             return self.dataframe
         conditions = []
         choices = []
-        for target_name, repeat_count in target_dict.items():
+        for target_name, repeat_count in replicate_samples.items():
             conditions.append(self.dataframe["sample"].isin([target_name]))
             choices.append(repeat_count)
 
@@ -127,9 +127,9 @@ class SampleListGenerator:
     help='The location of the txt file with sample names. For example: "sample_names.txt"',
 )
 @click.option(
-    "--target_dict",
+    "--replicate_samples",
     default=None,
-    help='A Python dictionary with target sample names and their repeat counts if multiple injections are desired. For example: {"sample1": 2, "sample2": 3}. Defaults to None.',
+    help='A dictionary containing sample names to be injected multiple times, along with their corresponding repeat counts. For example: {"sample1": 2, "sample2": 3}. Defaults to None.',
 )
 @click.option(
     "--start",
@@ -146,12 +146,14 @@ class SampleListGenerator:
     default=True,
     help="Whether to export the resulting sample list as csv. Defaults to True.",
 )
-def main(location, target_dict, start, randomize, export):
-    """A program that generates sample list with vial locations from given sample names."""
-    target_dict = ast.literal_eval(target_dict)
+def main(location, replicate_samples, start, randomize, export):
+    """A program that generates sample list with vial locations for GC/LC-MS applications
+    from a given txt file, handling duplicate sample names, and optionally
+    exports the randomized or ordered list as a CSV file."""
+    replicate_samples = ast.literal_eval(replicate_samples)
     creator = SampleListGenerator(location=location, start=start)
     injection_sequence = creator.return_sample_list(
-        target_dict=target_dict, randomize=randomize
+        replicate_samples=replicate_samples, randomize=randomize
     )
 
     if export:
